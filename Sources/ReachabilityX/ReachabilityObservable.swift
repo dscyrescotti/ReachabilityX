@@ -8,10 +8,10 @@ public class ReachabilityObservable: ObservableObject {
     private var reachability: Reachability?
     private var cancellable: AnyCancellable?
     
-    @Published var connection: Connection = .unavailable
-    @Published var error: ReachabilityError?
+    @Published public var connection: Connection = .unavailable
+    @Published public var error: ReachabilityError?
     
-    var allowsCellularConnection: Bool {
+    public var allowsCellularConnection: Bool {
         get { reachability?.allowsCellularConnection ?? true }
         set { reachability?.allowsCellularConnection = newValue }
     }
