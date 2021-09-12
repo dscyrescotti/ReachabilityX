@@ -2,7 +2,7 @@ import SwiftUI
 import Reachability
 
 @available(iOS 14.0, tvOS 14, macOS 11.0, watchOS 7, *)
-struct SingleReachabilityView<Content: View>: View {
+public struct SingleReachabilityView<Content: View>: View {
     @StateObject var reachability: ReachabilityObservable
     @Environment(\.changeConnectionAction) private var changeConnectionAction
     @Environment(\.throwErrorAction) private var throwErrorAction
