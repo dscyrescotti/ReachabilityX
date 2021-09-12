@@ -10,13 +10,14 @@ public class ReachabilityObservable: ObservableObject {
     
     @Published public var connection: Connection = .unavailable
     @Published public var error: ReachabilityError?
+    public var isNotifying: Bool = false
     
     public var allowsCellularConnection: Bool {
         get { reachability?.allowsCellularConnection ?? true }
         set { reachability?.allowsCellularConnection = newValue }
     }
     
-    public init(hostname: String?, queueQoS: DispatchQoS = .default, targetQueue: DispatchQueue? = nil, notificationQueue: DispatchQueue? = .main) {
+    public init(hostname: String? = nil, queueQoS: DispatchQoS = .default, targetQueue: DispatchQueue? = nil, notificationQueue: DispatchQueue? = .main) {
         do {
             if let hostname = hostname {
                 self.reachability = try Reachability(hostname: hostname, queueQoS: queueQoS, targetQueue: targetQueue, notificationQueue: notificationQueue)
@@ -33,15 +34,21 @@ public class ReachabilityObservable: ObservableObject {
     }
     
     public func start() {
-        do {
-            try reachability?.startNotifier()
-        } catch (let error) {
-            self.error = error as? ReachabilityError
+        if !isNotifying {
+            do {
+                try reachability?.startNotifier()
+                isNotifying = true
+            } catch (let error) {
+                self.error = error as? ReachabilityError
+            }
         }
     }
     
     public func stop() {
-        reachability?.stopNotifier()
+        if isNotifying {
+            reachability?.stopNotifier()
+            isNotifying = false
+        }
     }
     
     deinit {
