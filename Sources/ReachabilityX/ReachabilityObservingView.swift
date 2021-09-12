@@ -8,11 +8,8 @@ public struct ReachabilityObservingView<Content: View>: View {
     
     let content: (Connection, ReachabilityError?) -> Content
     
-    @State private var connection: Connection = .unavailable
-    @State private var error: ReachabilityError? = nil
-    
     public var body: some View {
-        content(connection, error)
+        content(reachability.connection, reachability.error)
             .onAppear {
                 reachability.start()
             }
@@ -20,11 +17,9 @@ public struct ReachabilityObservingView<Content: View>: View {
                 reachability.stop()
             }
             .onChangeConnection(reachability) { connection in
-                self.connection = connection
                 changeConnectionAction?(connection)
             }
             .onThrowError(reachability) { error in
-                self.error = error
                 throwErrorAction?(error)
             }
     }

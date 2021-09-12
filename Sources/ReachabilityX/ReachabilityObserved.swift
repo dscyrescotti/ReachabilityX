@@ -1,10 +1,12 @@
 import Combine
+import SwiftUI
 import Foundation
 import Reachability
 
 @propertyWrapper
 public class ReachabilityObserved {
-    private let observable: ReachabilityObservable
+    
+    @ObservedObject private var observable: ReachabilityObservable
     
     public var wrappedValue: ReachabilityObservable {
         get { observable }
