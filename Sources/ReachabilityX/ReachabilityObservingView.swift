@@ -2,7 +2,7 @@ import SwiftUI
 import Reachability
 
 public struct ReachabilityObservingView<Content: View>: View {
-    @ReachabilityObserved private var reachability
+    @EnvironmentObject var reachability: ReachabilityObservable
     @Environment(\.changeConnectionAction) private var changeConnectionAction
     @Environment(\.throwErrorAction) private var throwErrorAction
     
@@ -10,12 +10,6 @@ public struct ReachabilityObservingView<Content: View>: View {
     
     public var body: some View {
         content(reachability.connection, reachability.error)
-            .onAppear {
-                reachability.start()
-            }
-            .onDisappear {
-                reachability.stop()
-            }
             .onChangeConnection(reachability) { connection in
                 changeConnectionAction?(connection)
             }
@@ -25,11 +19,6 @@ public struct ReachabilityObservingView<Content: View>: View {
     }
     
     public init(@ViewBuilder content: @escaping (Connection, ReachabilityError?) -> Content) {
-        self.content = content
-    }
-    
-    public init(hostname: String? = nil, allowsCellularConnection: Bool = true, queueQoS: DispatchQoS = .default, targetQueue: DispatchQueue? = nil, notificationQueue: DispatchQueue? = .main, @ViewBuilder content: @escaping (Connection, ReachabilityError?) -> Content) {
-        self._reachability = ReachabilityObserved(hostname: hostname, allowsCellularConnection: allowsCellularConnection, queueQoS: queueQoS, targetQueue: targetQueue, notificationQueue: notificationQueue)
         self.content = content
     }
 }
