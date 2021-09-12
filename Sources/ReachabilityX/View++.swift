@@ -14,10 +14,10 @@ extension View {
         }
     }
     
-    public func environmentReachability(_ reachability: ReachabilityObservable, isObserving: Bool = true) -> some View {
+    public func environmentReachability(_ reachability: ReachabilityObservable, startsObserving: Bool = true) -> some View {
         self.environmentObject(reachability)
             .onAppear {
-                if isObserving {
+                if startsObserving {
                     reachability.start()
                 }
             }
