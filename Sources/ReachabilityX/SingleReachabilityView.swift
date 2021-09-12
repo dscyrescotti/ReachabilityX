@@ -1,8 +1,9 @@
 import SwiftUI
 import Reachability
 
-public struct ReachabilityObservingView<Content: View>: View {
-    @EnvironmentObject var reachability: ReachabilityObservable
+@available(iOS 14.0, tvOS 14, macOS 11.0, watchOS 7, *)
+struct SingleReachabilityView<Content: View>: View {
+    @StateObject var reachability: ReachabilityObservable
     @Environment(\.changeConnectionAction) private var changeConnectionAction
     @Environment(\.throwErrorAction) private var throwErrorAction
     
@@ -18,12 +19,14 @@ public struct ReachabilityObservingView<Content: View>: View {
             }
     }
     
-    public init(@ViewBuilder content: @escaping (Connection, ReachabilityError?) -> Content) {
+    public init(on reachability: ReachabilityObservable, @ViewBuilder content: @escaping (Connection, ReachabilityError?) -> Content) {
+        self._reachability = StateObject(wrappedValue: reachability)
         self.content = content
     }
 }
 
-extension ReachabilityObservingView {
+@available(iOS 14.0, tvOS 14, macOS 11.0, watchOS 7, *)
+extension SingleReachabilityView {
     public func onChangeConnection(_ action: @escaping (Connection) -> Void) -> some View {
         self.environment(\.changeConnectionAction, action)
     }
