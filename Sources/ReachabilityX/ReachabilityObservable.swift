@@ -27,14 +27,14 @@ public class ReachabilityObservable: ObservableObject {
         } catch (let error) {
             self.error = error as? ReachabilityError
         }
-        self.cancellable = NotificationCenter.default
-            .publisher(for: .reachabilityChanged, object: reachability)
-            .map({ ($0.object as! Reachability).connection })
-            .assign(to: \ReachabilityObservable.connection, on: self)
     }
     
     public func start() {
-        if !isNotifying {
+        if cancellable == nil {
+            cancellable = NotificationCenter.default
+                .publisher(for: .reachabilityChanged, object: reachability)
+                .map({ ($0.object as! Reachability).connection })
+                .assign(to: \ReachabilityObservable.connection, on: self)
             do {
                 try reachability?.startNotifier()
                 isNotifying = true
@@ -45,9 +45,9 @@ public class ReachabilityObservable: ObservableObject {
     }
     
     public func stop() {
-        if isNotifying {
+        if cancellable != nil {
             reachability?.stopNotifier()
-            isNotifying = false
+            cancellable = nil
         }
     }
     
