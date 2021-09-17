@@ -2,7 +2,7 @@ import SwiftUI
 import Reachability
 
 public struct ReachabilitySingleView<Content: View>: View {
-    @ReachabilityObserved var reachability: ReachabilityObservable
+    @ObservedObject var reachability: ReachabilityObservable = .init()
     @Environment(\.changeConnectionAction) private var changeConnectionAction
     @Environment(\.throwErrorAction) private var throwErrorAction
     
@@ -11,7 +11,7 @@ public struct ReachabilitySingleView<Content: View>: View {
     public var body: some View {
         content(reachability.connection, reachability.error)
             .onAppear {
-                self.reachability.start()
+                reachability.start()
             }
             .onDisappear {
                 reachability.stop()
@@ -26,7 +26,6 @@ public struct ReachabilitySingleView<Content: View>: View {
     
     public init(@ViewBuilder content: @escaping (Connection, ReachabilityError?) -> Content) {
         self.content = content
-        debugPrint("init")
     }
 }
 
