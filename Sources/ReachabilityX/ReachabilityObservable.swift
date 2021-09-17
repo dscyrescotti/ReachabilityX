@@ -10,7 +10,6 @@ public class ReachabilityObservable: ObservableObject {
     
     @Published public var connection: Connection = .unavailable
     @Published public var error: ReachabilityError?
-    public var isNotifying: Bool = false
     
     public var allowsCellularConnection: Bool {
         get { reachability?.allowsCellularConnection ?? true }
@@ -34,10 +33,10 @@ public class ReachabilityObservable: ObservableObject {
             cancellable = NotificationCenter.default
                 .publisher(for: .reachabilityChanged, object: reachability)
                 .map({ ($0.object as! Reachability).connection })
+                .receive(on: DispatchQueue.main)
                 .assign(to: \ReachabilityObservable.connection, on: self)
             do {
                 try reachability?.startNotifier()
-                isNotifying = true
             } catch (let error) {
                 self.error = error as? ReachabilityError
             }
