@@ -1,7 +1,7 @@
 import SwiftUI
 import Reachability
 
-struct ReachabilitySingleView<Content: View>: View {
+public struct ReachabilitySingleView<Content: View>: View {
     @ReachabilityObserved var reachability: ReachabilityObservable
     @Environment(\.changeConnectionAction) private var changeConnectionAction
     @Environment(\.throwErrorAction) private var throwErrorAction
