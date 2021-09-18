@@ -16,13 +16,39 @@ public class ReachabilityObservable: ObservableObject {
         set { reachability?.allowsCellularConnection = newValue }
     }
     
-    public init(hostname: String? = nil, queueQoS: DispatchQoS = .default, targetQueue: DispatchQueue? = nil, notificationQueue: DispatchQueue? = .main) {
+    public init(hostname: String? = nil) {
+        do {
+            if let hostname = hostname {
+                self.reachability = try Reachability(hostname: hostname)
+            } else {
+                self.reachability = try Reachability()
+            }
+        } catch (let error) {
+            self.error = error as? ReachabilityError
+        }
+    }
+    
+    public init(hostname: String? = nil, allowsCellularConnection: Bool = true) {
+        do {
+            if let hostname = hostname {
+                self.reachability = try Reachability(hostname: hostname)
+            } else {
+                self.reachability = try Reachability()
+            }
+            self.allowsCellularConnection = allowsCellularConnection
+        } catch (let error) {
+            self.error = error as? ReachabilityError
+        }
+    }
+    
+    public init(hostname: String? = nil, allowsCellularConnection: Bool = true, queueQoS: DispatchQoS = .default, targetQueue: DispatchQueue? = nil, notificationQueue: DispatchQueue? = .main) {
         do {
             if let hostname = hostname {
                 self.reachability = try Reachability(hostname: hostname, queueQoS: queueQoS, targetQueue: targetQueue, notificationQueue: notificationQueue)
             } else {
                 self.reachability = try Reachability(queueQoS: queueQoS, targetQueue: targetQueue, notificationQueue: notificationQueue)
             }
+            self.allowsCellularConnection = allowsCellularConnection
         } catch (let error) {
             self.error = error as? ReachabilityError
         }

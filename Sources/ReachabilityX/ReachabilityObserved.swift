@@ -12,8 +12,15 @@ public class ReachabilityObserved {
         get { observable }
     }
     
+    public init(hostname: String? = nil) {
+        self.observable = .init(hostname: hostname)
+    }
+    
+    public init(hostname: String? = nil, allowsCellularConnection: Bool = true) {
+        self.observable = .init(hostname: hostname, allowsCellularConnection: allowsCellularConnection)
+    }
+    
     public init(hostname: String? = nil, allowsCellularConnection: Bool = true, queueQoS: DispatchQoS = .default, targetQueue: DispatchQueue? = nil, notificationQueue: DispatchQueue? = .main) {
-        self.observable = .init(hostname: hostname, queueQoS: queueQoS, targetQueue: targetQueue, notificationQueue: notificationQueue)
-        self.observable.allowsCellularConnection = allowsCellularConnection
+        self.observable = .init(hostname: hostname, allowsCellularConnection: allowsCellularConnection, queueQoS: queueQoS, targetQueue: targetQueue, notificationQueue: notificationQueue)
     }
 }
