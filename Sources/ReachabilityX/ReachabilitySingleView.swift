@@ -17,6 +17,12 @@ public struct ReachabilitySingleView<Content: View>: View {
             .onThrowError(reachability) { error in
                 throwErrorAction?(error)
             }
+            .onAppear {
+                reachability.start()
+            }
+            .onDisappear {
+                reachability.stop()
+            }
     }
     
     public init(@ViewBuilder content: @escaping (Connection, ReachabilityError?) -> Content) {
