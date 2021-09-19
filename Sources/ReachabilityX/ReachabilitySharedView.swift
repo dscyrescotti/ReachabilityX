@@ -1,7 +1,7 @@
 import SwiftUI
 import Reachability
 
-public struct ReachabilityView<Content: View>: View {
+public struct ReachabilitySharedView<Content: View>: View {
     @EnvironmentObject var reachability: ReachabilityObservable
     @Environment(\.changeConnectionAction) private var changeConnectionAction
     @Environment(\.throwErrorAction) private var throwErrorAction
@@ -23,7 +23,7 @@ public struct ReachabilityView<Content: View>: View {
     }
 }
 
-extension ReachabilityView {
+extension ReachabilitySharedView {
     public func onChangeConnection(_ action: @escaping (Connection) -> Void) -> some View {
         self.environment(\.changeConnectionAction, action)
     }
