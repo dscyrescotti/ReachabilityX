@@ -2,8 +2,7 @@ import SwiftUI
 import Reachability
 
 public struct ReachabilitySingleView<Content: View>: View {
-//    @ObservedObject var reachability: ReachabilityObservable
-    @ReachabilityObserved var reachability
+    @ObservedObject var reachability: ReachabilityObservable
     @Environment(\.changeConnectionAction) private var changeConnectionAction
     @Environment(\.throwErrorAction) private var throwErrorAction
     
@@ -26,17 +25,17 @@ public struct ReachabilitySingleView<Content: View>: View {
     }
     
     public init(@ViewBuilder content: @escaping (Connection, ReachabilityError?) -> Content) {
-//        self.reachability = .init()
+        self.reachability = .init()
         self.content = content
     }
     
     public init(hostname: String? = nil, @ViewBuilder content: @escaping (Connection, ReachabilityError?) -> Content) {
-//        self.reachability = .init(hostname: hostname)
+        self.reachability = .init(hostname: hostname)
         self.content = content
     }
     
     public init(hostname: String? = nil, queueQoS: DispatchQoS = .default, targetQueue: DispatchQueue? = nil, notificationQueue: DispatchQueue? = .main, @ViewBuilder content: @escaping (Connection, ReachabilityError?) -> Content) {
-//        self.reachability = ReachabilityObservable(hostname: hostname, queueQoS: queueQoS, targetQueue: targetQueue, notificationQueue: notificationQueue)
+        self.reachability = ReachabilityObservable(hostname: hostname, queueQoS: queueQoS, targetQueue: targetQueue, notificationQueue: notificationQueue)
         self.content = content
     }
 }
