@@ -4,7 +4,7 @@ import Foundation
 import Reachability
 
 @propertyWrapper
-public class ReachabilityObserved {
+public struct ReachabilityObserved {
     
     @ObservedObject private var observable: ReachabilityObservable
     
