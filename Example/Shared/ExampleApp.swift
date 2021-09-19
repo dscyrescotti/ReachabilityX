@@ -10,7 +10,7 @@ import ReachabilityX
 
 @main
 struct ExampleApp: App {
-    @ReachabilityObserved(hostname: "google.com") var reachability
+    @ObservedObject var reachability: ReachabilityObservable = .init(hostname: "google.com")
     var body: some Scene {
         WindowGroup {
             #if os(macOS)
