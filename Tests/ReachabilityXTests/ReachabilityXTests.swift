@@ -1,6 +1,4 @@
 import XCTest
 @testable import ReachabilityX
 
-final class ReachabilityXTests: XCTestCase {
-    func testExample() { }
-}
+final class ReachabilityXTests: XCTestCase { }
