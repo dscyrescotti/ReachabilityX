@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,8 +13,6 @@
 		E6571B3526EDE26C0095B48F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6571B2026EDE2680095B48F /* ContentView.swift */; };
 		E6571B3626EDE26C0095B48F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6571B2126EDE26C0095B48F /* Assets.xcassets */; };
 		E6571B3726EDE26C0095B48F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6571B2126EDE26C0095B48F /* Assets.xcassets */; };
-		E6571B4226EDE2E80095B48F /* ReachabilityX in Frameworks */ = {isa = PBXBuildFile; productRef = E6571B4126EDE2E80095B48F /* ReachabilityX */; };
-		E6571B4526EDE2F50095B48F /* ReachabilityX in Frameworks */ = {isa = PBXBuildFile; productRef = E6571B4426EDE2F50095B48F /* ReachabilityX */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +31,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6571B4226EDE2E80095B48F /* ReachabilityX in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,7 +38,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6571B4526EDE2F50095B48F /* ReachabilityX in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,7 +115,6 @@
 			);
 			name = "Example (iOS)";
 			packageProductDependencies = (
-				E6571B4126EDE2E80095B48F /* ReachabilityX */,
 			);
 			productName = "Example (iOS)";
 			productReference = E6571B2626EDE26C0095B48F /* Example.app */;
@@ -139,7 +134,6 @@
 			);
 			name = "Example (macOS)";
 			packageProductDependencies = (
-				E6571B4426EDE2F50095B48F /* ReachabilityX */,
 			);
 			productName = "Example (macOS)";
 			productReference = E6571B2E26EDE26C0095B48F /* Example.app */;
@@ -172,7 +166,6 @@
 			);
 			mainGroup = E6571B1926EDE2680095B48F;
 			packageReferences = (
-				E6571B4026EDE2E80095B48F /* XCRemoteSwiftPackageReference "ReachabilityX" */,
 			);
 			productRefGroup = E6571B2726EDE26C0095B48F /* Products */;
 			projectDirPath = "";
@@ -458,30 +451,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		E6571B4026EDE2E80095B48F /* XCRemoteSwiftPackageReference "ReachabilityX" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "file:///Users/phoelapyae/Documents/All/SPM/ReachabilityX";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		E6571B4126EDE2E80095B48F /* ReachabilityX */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E6571B4026EDE2E80095B48F /* XCRemoteSwiftPackageReference "ReachabilityX" */;
-			productName = ReachabilityX;
-		};
-		E6571B4426EDE2F50095B48F /* ReachabilityX */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E6571B4026EDE2E80095B48F /* XCRemoteSwiftPackageReference "ReachabilityX" */;
-			productName = ReachabilityX;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E6571B1A26EDE2680095B48F /* Project object */;
 }
