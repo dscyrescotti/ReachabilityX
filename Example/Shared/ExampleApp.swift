@@ -15,12 +15,12 @@ struct ExampleApp: App {
         WindowGroup {
             #if os(macOS)
             GeometryReader { proxy in
-                ContentView()
+                AppView()
                     .frame(width: proxy.size.width, height: proxy.size.height)
             }
             .environmentReachability(reachability)
             #else
-            ContentView()
+            AppView()
                 .environmentReachability(reachability)
             #endif
         }

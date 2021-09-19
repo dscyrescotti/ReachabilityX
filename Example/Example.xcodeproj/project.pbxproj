@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E639ECB726F71BAF00975946 /* ReachabilityX in Frameworks */ = {isa = PBXBuildFile; productRef = E639ECB626F71BAF00975946 /* ReachabilityX */; };
+		E639ECB926F71BB600975946 /* ReachabilityX in Frameworks */ = {isa = PBXBuildFile; productRef = E639ECB826F71BB600975946 /* ReachabilityX */; };
 		E6571B3226EDE26C0095B48F /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6571B1F26EDE2680095B48F /* ExampleApp.swift */; };
 		E6571B3326EDE26C0095B48F /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6571B1F26EDE2680095B48F /* ExampleApp.swift */; };
 		E6571B3426EDE26C0095B48F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6571B2026EDE2680095B48F /* ContentView.swift */; };
@@ -31,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E639ECB726F71BAF00975946 /* ReachabilityX in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E639ECB926F71BB600975946 /* ReachabilityX in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +119,7 @@
 			);
 			name = "Example (iOS)";
 			packageProductDependencies = (
+				E639ECB626F71BAF00975946 /* ReachabilityX */,
 			);
 			productName = "Example (iOS)";
 			productReference = E6571B2626EDE26C0095B48F /* Example.app */;
@@ -134,6 +139,7 @@
 			);
 			name = "Example (macOS)";
 			packageProductDependencies = (
+				E639ECB826F71BB600975946 /* ReachabilityX */,
 			);
 			productName = "Example (macOS)";
 			productReference = E6571B2E26EDE26C0095B48F /* Example.app */;
@@ -166,6 +172,7 @@
 			);
 			mainGroup = E6571B1926EDE2680095B48F;
 			packageReferences = (
+				E639ECB526F71BAF00975946 /* XCRemoteSwiftPackageReference "ReachabilityX" */,
 			);
 			productRefGroup = E6571B2726EDE26C0095B48F /* Products */;
 			projectDirPath = "";
@@ -451,6 +458,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E639ECB526F71BAF00975946 /* XCRemoteSwiftPackageReference "ReachabilityX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dscyrescotti/ReachabilityX.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E639ECB626F71BAF00975946 /* ReachabilityX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E639ECB526F71BAF00975946 /* XCRemoteSwiftPackageReference "ReachabilityX" */;
+			productName = ReachabilityX;
+		};
+		E639ECB826F71BB600975946 /* ReachabilityX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E639ECB526F71BAF00975946 /* XCRemoteSwiftPackageReference "ReachabilityX" */;
+			productName = ReachabilityX;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E6571B1A26EDE2680095B48F /* Project object */;
 }
