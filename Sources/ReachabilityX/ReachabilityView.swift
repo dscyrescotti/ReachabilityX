@@ -22,13 +22,3 @@ public struct ReachabilityView<Content: View>: View {
         self.content = content
     }
 }
-
-extension ReachabilityView {
-    public func onChangeConnection(_ action: @escaping (Connection) -> Void) -> some View {
-        self.environment(\.changeConnectionAction, action)
-    }
-    
-    public func onThrowError(_ action: @escaping (ReachabilityError) -> Void) -> some View {
-        self.environment(\.throwErrorAction, action)
-    }
-}

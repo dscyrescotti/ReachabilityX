@@ -14,6 +14,14 @@ extension View {
         }
     }
     
+    public func onChangeConnection(_ action: @escaping (Connection) -> Void) -> some View {
+        self.environment(\.changeConnectionAction, action)
+    }
+    
+    public func onThrowError(_ action: @escaping (ReachabilityError) -> Void) -> some View {
+        self.environment(\.throwErrorAction, action)
+    }
+    
     public func environmentReachability(_ reachability: ReachabilityObservable, startsObserving: Bool = true) -> some View {
         self.environmentObject(reachability)
             .onAppear {
