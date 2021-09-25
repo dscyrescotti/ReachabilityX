@@ -1,24 +1,44 @@
 import SwiftUI
-import Reachability
+import Network
 
 public struct ReachabilityView<Content: View>: View {
-    @EnvironmentObject var reachability: ReachabilityObservable
-    @Environment(\.changeConnectionAction) private var changeConnectionAction
-    @Environment(\.throwErrorAction) private var throwErrorAction
+    @EnvironmentObject private var reachability: Reachability
     
-    let content: (Connection, ReachabilityError?) -> Content
+    @Environment(\.changeInterfaceTypeAction) private var changeInterfaceTypeAction
+    @Environment(\.changePathAction) private var changePathAction
+    @Environment(\.changeStatusAction) private var changeStatusAction
     
+    private let content: (Reachability) -> Content
     public var body: some View {
-        content(reachability.connection, reachability.error)
-            .onChangeConnection(reachability) { connection in
-                changeConnectionAction?(connection)
-            }
-            .onThrowError(reachability) { error in
-                throwErrorAction?(error)
-            }
+        content(reachability)
+            .onReceive(reachability.objectWillChange, perform: {
+                changeInterfaceTypeAction?(reachability.interfaceType)
+                changeStatusAction?(reachability.status)
+                changePathAction?(reachability.path)
+            })
     }
     
-    public init(@ViewBuilder content: @escaping (Connection, ReachabilityError?) -> Content) {
-        self.content = content
+    public init(@ViewBuilder content: @escaping (NWPath) -> Content) {
+        self.content = { reachability in
+            content(reachability.path)
+        }
+    }
+    
+    public init(@ViewBuilder content: @escaping (Status) -> Content) {
+        self.content = { reachability in
+            content(reachability.status)
+        }
+    }
+    
+    public init(@ViewBuilder content: @escaping (InterfaceType) -> Content) {
+        self.content = { reachability in
+            content(reachability.interfaceType)
+        }
+    }
+    
+    public init(@ViewBuilder content: @escaping (Status, InterfaceType) -> Content) {
+        self.content = { reachability in
+            content(reachability.status, reachability.interfaceType)
+        }
     }
 }

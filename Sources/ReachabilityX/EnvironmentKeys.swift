@@ -1,10 +1,14 @@
 import SwiftUI
-import Reachability
+import Network
 
-struct ChangeConnectionActionEnvironmentKey: EnvironmentKey {
-    static var defaultValue: ((Connection) -> Void)? = nil
+struct ChangeInterfaceTypeActionEnvironmentKey: EnvironmentKey {
+    static var defaultValue: ((InterfaceType) -> Void)? = nil
 }
 
-struct ThrowErrorActionEnvironmentKey: EnvironmentKey {
-    static var defaultValue: ((ReachabilityError) -> Void)? = nil
+struct ChangePathActionEnvironmentKey: EnvironmentKey {
+    static var defaultValue: ((NWPath) -> Void)? = nil
+}
+
+struct ChangeStatusActionEnvironmentKey: EnvironmentKey {
+    static var defaultValue: ((Status) -> Void)? = nil
 }
