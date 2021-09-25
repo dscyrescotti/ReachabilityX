@@ -16,15 +16,11 @@ let package = Package(
             name: "ReachabilityX",
             targets: ["ReachabilityX"]),
     ],
-    dependencies: [
-        .package(name: "Reachability", url: "https://github.com/ashleymills/Reachability.swift.git", from: "5.0.0")
-    ],
+    dependencies: [],
     targets: [
         .target(
             name: "ReachabilityX",
-            dependencies: [
-                .product(name: "Reachability", package: "Reachability")
-            ]
+            dependencies: []
         ),
         .testTarget(
             name: "ReachabilityXTests",
