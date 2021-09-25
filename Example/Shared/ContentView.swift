@@ -1,5 +1,5 @@
 //
-//  AppView.swift
+//  ContentView.swift
 //  Shared
 //
 //  Created by Dscyre Scotti on 12/09/2021.
@@ -8,57 +8,35 @@
 import SwiftUI
 import ReachabilityX
 
-struct AppView: View {
-    @State private var selection: Int? = 0
+struct ContentView: View {
+    @StateObject var reachability: Reachability = .init()
     var body: some View {
         NavigationView {
-            List {
-                NavigationLink(destination: ListeningView(image: "star.fill"), tag: 0, selection: $selection) {
-                    Label("Star", systemImage: "star.fill")
-                }
-                NavigationLink(destination: ListeningView(image: "heart.fill"), tag: 1, selection: $selection) {
-                    Label("Heart", systemImage: "heart.fill")
+            Group {
+                switch reachability.status {
+                case .satisfied: icon(systemName: "wifi", label: "Connected!")
+                default: icon(systemName: "wifi.slash", label: "Not Connected!")
                 }
             }
-            .listStyle(SidebarListStyle())
+            .onAppear {
+                reachability.start()
+            }
             .navigationTitle("ReachabilityX")
         }
     }
-}
-
-struct ListeningView: View {
-    let image: String
-    var body: some View {
-        ReachabilityView { connection, error in
-            Group {
-                switch connection {
-                case .wifi, .cellular:
-                    Label {
-                        Text("Avaliable")
-                            .font(.system(size: 30).bold())
-                    } icon: {
-                        Image(systemName: "wifi")
-                    }
-                    .foregroundColor(.green)
-                case .unavailable, .none:
-                    Label {
-                        Text("Unavaliable")
-                            .font(.system(size: 30).bold())
-                    } icon: {
-                        Image(systemName: "wifi.exclamationmark")
-                    }
-                    .foregroundColor(.gray)
-                }
-            }
-            .font(.system(size: 40).bold())
+    
+    func icon(systemName: String, label: String) -> some View {
+        VStack {
+            Image(systemName: systemName)
+                .font(.system(.title2).bold())
+            Text(label)
+                .font(.system(.headline).bold())
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .overlay(Image(systemName: image).foregroundColor(.yellow).font(.system(size: 20)).padding(), alignment: .bottomTrailing)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        AppView()
+        ContentView()
     }
 }
