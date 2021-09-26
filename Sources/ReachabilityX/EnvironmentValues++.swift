@@ -1,14 +1,19 @@
 import SwiftUI
-import Reachability
+import Network
 
 extension EnvironmentValues {
-    var changeConnectionAction: ((Connection) -> Void)? {
-        get { self[ChangeConnectionActionEnvironmentKey.self] }
-        set { self[ChangeConnectionActionEnvironmentKey.self] = newValue }
+    var changeInterfaceTypeAction: ((InterfaceType) -> Void)? {
+        get { self[ChangeInterfaceTypeActionEnvironmentKey.self] }
+        set { self[ChangeInterfaceTypeActionEnvironmentKey.self] = newValue }
     }
     
-    var throwErrorAction: ((ReachabilityError) -> Void)? {
-        get { self[ThrowErrorActionEnvironmentKey.self] }
-        set { self[ThrowErrorActionEnvironmentKey.self] = newValue }
+    var changePathAction: ((NWPath) -> Void)? {
+        get { self[ChangePathActionEnvironmentKey.self] }
+        set { self[ChangePathActionEnvironmentKey.self] = newValue }
+    }
+    
+    var changeStatusAction: ((Status) -> Void)? {
+        get { self[ChangeStatusActionEnvironmentKey.self] }
+        set { self[ChangeStatusActionEnvironmentKey.self] = newValue }
     }
 }

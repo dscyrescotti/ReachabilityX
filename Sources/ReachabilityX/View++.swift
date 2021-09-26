@@ -1,33 +1,34 @@
 import SwiftUI
-import Reachability
+import Network
 
-extension View {
-    public func onChangeConnection(_ reachability: ReachabilityObservable, _ action: @escaping (Connection) -> Void) -> some View {
-        self.onReceive(reachability.$connection, perform: action)
+public extension View {
+    func onChangeInterfaceType(action: @escaping (InterfaceType) -> Void) -> some View {
+        self.environment(\.changeInterfaceTypeAction, action)
     }
     
-    public func onThrowError(_ reachability: ReachabilityObservable, _ action: @escaping (ReachabilityError) -> Void) -> some View {
-        self.onReceive(reachability.$error) { error in
-            if let error = error {
-                action(error)
-            }
-        }
+    func onChangePath(action: @escaping (NWPath) -> Void) -> some View {
+        self.environment(\.changePathAction, action)
     }
     
-    public func onChangeConnection(_ action: @escaping (Connection) -> Void) -> some View {
-        self.environment(\.changeConnectionAction, action)
+    func onChangeStatus(action: @escaping (Status) -> Void) -> some View {
+        self.environment(\.changeStatusAction, action)
     }
     
-    public func onThrowError(_ action: @escaping (ReachabilityError) -> Void) -> some View {
-        self.environment(\.throwErrorAction, action)
+    func onChangeInterfaceType(_ reachability: Reachability, action: @escaping (InterfaceType) -> Void) -> some View {
+        self.onReceive(reachability.objectWillChange, perform: {
+            action(reachability.interfaceType)
+        })
     }
     
-    public func environmentReachability(_ reachability: ReachabilityObservable, startsObserving: Bool = true) -> some View {
-        self.environmentObject(reachability)
-            .onAppear {
-                if startsObserving {
-                    reachability.start()
-                }
-            }
+    func onChangePath(_ reachability: Reachability, action: @escaping (NWPath) -> Void) -> some View {
+        self.onReceive(reachability.objectWillChange, perform: {
+            action(reachability.path)
+        })
+    }
+    
+    func onChangeStatus(_ reachability: Reachability, action: @escaping (Status) -> Void) -> some View {
+        self.onReceive(reachability.objectWillChange, perform: {
+            action(reachability.status)
+        })
     }
 }
