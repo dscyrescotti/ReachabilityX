@@ -1,7 +1,5 @@
 # ReachabilityX
-__ReachabilityX__ is designed to provide an easy way to observe the network changes for SwiftUI.
-
-***Note**: Currently, ReachabilityX is built on top of [__Reachability.swift__](https://github.com/ashleymills/Reachability.swift). According to the documentation of Reachability.swift, it is said that it is compatible with **iOS** (8.0 - 12.0), **OSX** (10.9 - 10.14) and **tvOS** (9.0 - 12.0). But it has been deprecated yet and it is still working. Later, I'll consider to use `NWPathMonitor` from Apple's `Network` framework.*
+__ReachabilityX__ is built using `NWPathMonitor` from Apple's `Network` framework to provide an easy way to observe the network changes for SwiftUI.
 
 ## Requirements
 -   iOS 13.0+ / macOS 10.15+ / tvOS 13.0+ / watchOS 6.0+
@@ -12,71 +10,100 @@ __ReachabilityX__ is designed to provide an easy way to observe the network chan
 Add it as a dependency within your  `Package.swift`,
 ```
 dependencies: [
-    .package(url: "https://github.com/dscyrescotti/ReachabilityX", from: "0.1.0")
+    .package(url: "https://github.com/dscyrescotti/ReachabilityX", from: "1.0.0")
 ]
 ```
 Currently, **ReachabilityX** can only be installed via **Swift Package Manager**.
 
 ## Usage
- __ReachabilityX__ comes with `ReachabilityView` that is needed to supply `ReachabilityObservable` object by its parent or ancestor. It is pretty handy to use when network changes are needed to observe across multiple views.
+__ReachabilityX__ comes with `ReachabilityView` that exposes `Reachability` object supplied from its parent or ancestor. It is pretty handy to use when network changes are needed to observe across multiple views.
  
 ### Example 1
-Firstly, you need to create a instance of `ReachabilityObservable` inside  for sharing via    `environmentObject(_:)`.
+Firstly, you need to create an instance of `Reachability` inside the entry point of an app for the purpose of sharing it across multiple views via `environmentObject(_:)`.
 ```swift
 @main
 struct TestApp: App {
-    @ObservedObject var reachability: ReachabilityObservable = .init(hostname: "google.com")
+    @ObservedObject var reachability: Reachability = .init()
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentReachability(reachability)
+                .environmentObject(reachability)
+                .onAppear {
+                    reachability.start()
+                }
         }
     }
 }
 ```
-Now, you can easily implement your presentation logic inside `ReachabilityView` and also interact with your business logic using `onChangeConnection(_:)` and `onThrowError(_:)`.
+Now, you can easily implement your presentation logic inside `ReachabilityView` and also implement your business logic using `onChangeStatus(action:)`,  `onChangeInterfaceType(action:)` and `onChangePath(action:)`.
 ```swift
 struct ContentView: View {
     var body: some View {
-        ReachabilityView { connection, error in
+        ReachabilityView { (status: Status) in
             // some presentation logic
         }
-        .onChangeConnection { connection in
-            // some business logic
+        .onChangeStatus { status in
+            // some business logic associated with status changes
         }
-        .onThrowError { error in
+        .onChangeInterfaceType { interfaceType in
+            // some business logic associated with interface type changes
+        }
+        .onChangePath { path in
+            // some business logic associated with path changes
+        }
+    }
+}
+```
+`ReachabilityView` comes with a couple of initializers that allows you to construct your desired views inside closures with different parameters. 
+```swift
+// use it when you are only interested in status
+ReachabilityView { (status: Status) in
+    // some presentation logic associated with status changes
+}
+
+// use it when you are only interested in interface type
+ReachabilityView { (interfaceType: InterfaceType) in
+    // some presentation logic associated with interface changes
+}
+
+// use it when you are interested in both of status and interface type
+ReachabilityView { (status: Status, interfaceType: InterfaceType) in
+    // some presentation logic associated with status and interface type changes
+}
+
+// use it when you need to know the whole network path object
+ReachabilityView { (path: NWPath) in
+    // some presentation logic associated with network path
+}
+```
+
+### Example 2
+__ReachabiliyX__ also allows you to create your own `Reachability` instance by declaring inside SwiftUI view to observe the network changes. 
+```swift
+struct ContentView: View {
+    @StateObject var reachability: Reachability = .init()
+    var body: some View {
+        Group {
+            switch reachability.status {
+            case .satisfied: Text("Connected!")
+            default: Text("Not Connected!")
+            }
+        }
+        .onAppear {
+            reachability.start()
+        }
+        .onDisappear {
+            reachability.stop()
+        }
+        .onChangeInterfaceType(reachability) { interfaceType in
             // some business logic
         }
     }
 }
 ```
 
-### Example 2
-__ReachabiliyX__ also allows you to create your own `ReachabilityObservable` instance by declaring inside SwiftUI view to observe the network changes. 
-```swift
-struct ContentView: View {
-    @StateObject var reachability: ReachabilityObservable = .init(hostname: "google.com")
-    var body: some View {
-        Group {
-            switch reachability.connection {
-            case .wifi, .cellular:
-                Text("Available")
-            case .unavailable, .none:
-                Text("Unavailable")
-            }
-        }
-        .onAppear {
-	        // start listening the network changes
-            reachability.start() 
-        }
-        .onDisappear {
-	        // stop listening the network changes
-            reachability.stop()
-        }
-    }
-}
-```
-***Note**: Don't forget to call `start()` when you start observing the network changes.*
+### Start and stop monitoring network changes
+To obtain network path updates, you need to call `start()` method to begin observing network changes. If you want to stop observing changes, you have to call `stop()` method. This will no longer monitor any network changes.
 
 ## Author
 **Dscyre Scotti** (**[@dscyrescotti](https://twitter.com/dscyrescotti)**)
